@@ -35,4 +35,12 @@ public class Market {
 		}
 		return 0;
 	}
+	public void run()
+	{
+		//do production!
+		for(int i = 0; i < listOfAgents.size(); ++i)
+		{
+			listOfAgents.get(i).run();
+		}
+	}
 }

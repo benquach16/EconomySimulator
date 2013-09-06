@@ -17,6 +17,10 @@ public class Person {
 	public Person(String name)
 	{
 		this.name = name;
+		this.money = 100;
+		this.food = 20;
+		this.wood = 20;
+		this.tools = 1;
 	}
 	public void run()
 	{

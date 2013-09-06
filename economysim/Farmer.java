@@ -30,6 +30,11 @@ public class Farmer extends Person {
 			//no food?
 			//better buy some on the market then
 			//if no money then we kill this guy
+			
+		}
+		if(food > 5)
+		{
+			//excess food so lets sell it
 		}
 	}
 	public void print()
@@ -38,6 +43,11 @@ public class Farmer extends Person {
 		super.print();
 		System.out.print("Food: ");
 		System.out.println(food);
+		System.out.print("Tools: ");
+		System.out.println(tools);
+		System.out.print("Wood: ");
+		System.out.println(wood);
+		System.out.println("");
 		
 	}
 	public String getProfession()
