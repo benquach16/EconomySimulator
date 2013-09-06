@@ -1,5 +1,7 @@
 package economysim;
 import economysim.Offer;
+import economysim.Bid;
+import economysim.Market;
 
 //base class
 //a base person will continue to buy food until he runs out of money and dies :(
@@ -18,17 +20,15 @@ public class Person {
 	{
 		this.name = name;
 		this.money = 100;
-		this.food = 20;
-		this.wood = 20;
+		this.food = 5;
+		this.wood = 5;
 		this.tools = 1;
+		this.metal = 5;
 	}
 	public void run()
 	{
 		//virtual function
-		if(money > 0)
-		{
-			//buy food
-		}
+		food--;
 	}
 	public void print()
 	{
@@ -47,12 +47,36 @@ public class Person {
 	public Offer createOffer()
 	{
 		//create an offer on the market for their commodity
-		//must be a need, eg farmers need wood and tools, etc etc
-		Offer ret = new Offer();
+		//something that this person wants to sell
+		Offer ret = new Offer(name, 5, "food");
 		return ret;
 	}
+	public boolean wantsToSell()
+	{
+		//base people dont sell
+		return false;
+	}
+	public Bid createBid()
+	{
+		Bid ret = new Bid(name, 5, "food");
+		return ret;
+	}
+	public boolean wantsToBuy()
+	{
+		if(food < 5)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	//accessors go down here
 	public String getProfession()
 	{
 		return "Person";
+	}
+	public String getName()
+	{
+		return name;
 	}
 }

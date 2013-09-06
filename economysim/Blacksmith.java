@@ -6,6 +6,16 @@ public class Blacksmith extends Person {
 	public Blacksmith(String name)
 	{
 		super(name);
+	
+	}
+	public void run()
+	{
+		super.run();
+		if(food > 1)
+		{
+			tools+=metal;
+			metal = 0;
+		}
 	}
 	public void print()
 	{

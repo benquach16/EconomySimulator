@@ -1,6 +1,7 @@
 package economysim;
 import economysim.Person;
 
+
 public class Farmer extends Person {
 	public Farmer(String name)
 	{
@@ -10,18 +11,17 @@ public class Farmer extends Person {
 	}
 	public void run()
 	{
+		super.run();
 		//every tick make food
 		if(tools > 0 && wood > 0 && food > 0)
 		{
 			//we can do stuff
-			food --;
 			wood --;
 			food += 5;
 		}
 		else if(wood > 0 && food > 0)
 		{
 			//has no tools
-			food --;
 			wood --;
 			food += 3;
 		}
@@ -31,10 +31,6 @@ public class Farmer extends Person {
 			//better buy some on the market then
 			//if no money then we kill this guy
 			
-		}
-		if(food > 5)
-		{
-			//excess food so lets sell it
 		}
 	}
 	public void print()
@@ -49,6 +45,17 @@ public class Farmer extends Person {
 		System.out.println(wood);
 		System.out.println("");
 		
+	}
+	public Offer createOffer()
+	{
+		Offer ret = new Offer(name, 5, "food");
+		return ret;
+	}
+	public boolean wantsToSell()
+	{
+		if(food > 5)
+			return true;
+		return false;
 	}
 	public String getProfession()
 	{

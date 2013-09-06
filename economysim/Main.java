@@ -20,7 +20,8 @@ public class Main {
 		Market market = new Market();
 		market.addAgent(john);
 		market.addAgent(alfonso);
-
+		john.print();
+		alfonso.print();
 		while(run)
 		{
 			market.run();
