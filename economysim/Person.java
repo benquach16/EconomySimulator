@@ -1,5 +1,5 @@
 package economysim;
-
+import economysim.Offer;
 
 //base class
 //a base person will continue to buy food until he runs out of money and dies :(
@@ -10,9 +10,13 @@ public class Person {
 	protected int wood;
 	protected int tools;
 	protected int metal;
-	public Person()
+	protected int ore;
+	
+	protected String name;
+	
+	public Person(String name)
 	{
-		
+		this.name = name;
 	}
 	public void run()
 	{
@@ -25,6 +29,10 @@ public class Person {
 	public void print()
 	{
 		//print out the resources that this person has
+		System.out.print(name);
+		System.out.println(getProfession());
+		System.out.print("Money: ");
+		System.out.println(money);
 	}
 	public int generatePrice()
 	{
@@ -32,9 +40,15 @@ public class Person {
 		//generate the selling price of the commodity
 		return 0;
 	}
-	public void createOffer()
+	public Offer createOffer()
 	{
 		//create an offer on the market for their commodity
 		//must be a need, eg farmers need wood and tools, etc etc
+		Offer ret = new Offer();
+		return ret;
+	}
+	public String getProfession()
+	{
+		return "Person";
 	}
 }

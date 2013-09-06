@@ -2,9 +2,11 @@ package economysim;
 import economysim.Person;
 
 public class Farmer extends Person {
-	public Farmer()
+	public Farmer(String name)
 	{
 		//constructor
+		//invoke person constructor
+		super(name);
 	}
 	public void run()
 	{
@@ -33,7 +35,14 @@ public class Farmer extends Person {
 	public void print()
 	{
 		//lets print the resources the farmer has right now
+		super.print();
+		System.out.print("Food: ");
 		System.out.println(food);
+		
+	}
+	public String getProfession()
+	{
+		return "Farmer";
 	}
 
 }

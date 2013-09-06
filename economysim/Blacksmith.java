@@ -3,9 +3,9 @@ import economysim.Person;
 
 public class Blacksmith extends Person {
 	
-	public Blacksmith()
+	public Blacksmith(String name)
 	{
-		
+		super(name);
 	}
 	
 	
