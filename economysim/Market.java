@@ -1,5 +1,6 @@
 package economysim;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import economysim.Offer;
 import economysim.Person;
@@ -13,6 +14,7 @@ public class Market {
 	ArrayList<Bid> bidsOnMarket;
 	Map<String, Integer> averagePrice;
 	Map<String, Integer> currentPrices;
+	 
 	
 	public Market()
 	{
@@ -20,8 +22,8 @@ public class Market {
 		listOfAgents = new ArrayList<Person>();
 		offersOnMarket = new ArrayList<Offer>();
 		bidsOnMarket = new ArrayList<Bid>();
+		averagePrice = new HashMap<String, Integer>();
 
-		
 	}
 	public void addAgent(Person newAgent)
 	{
@@ -34,11 +36,8 @@ public class Market {
 		offersOnMarket.clear();
 		for(int i = 0; i < listOfAgents.size(); ++i)
 		{
-			if(listOfAgents.get(i).wantsToSell())
-			{
-				Offer newOffer = listOfAgents.get(i).createOffer();
-				offersOnMarket.add(newOffer);
-			}
+			ArrayList<Offer> newOffer = listOfAgents.get(i).createOffer();
+			offersOnMarket.addAll(newOffer);
 		}
 	}
 	public void generateBids()
@@ -47,11 +46,8 @@ public class Market {
 		bidsOnMarket.clear();
 		for(int i = 0; i < listOfAgents.size(); ++i)
 		{
-			if(listOfAgents.get(i).wantsToBuy())
-			{
-				Bid newBid = listOfAgents.get(i).createBid();
-				bidsOnMarket.add(newBid);
-			}
+			ArrayList<Bid> newBid = listOfAgents.get(i).createBid();
+			bidsOnMarket.addAll(newBid);
 		}
 	}
 	public Offer findOffer(String good)
@@ -85,7 +81,19 @@ public class Market {
 					//just buy it for now
 					System.out.print(bidsOnMarket.get(i).getBuyerName());
 					System.out.print(" purchased from ");
-					System.out.println(offersOnMarket.get(j).getSellerName());
+					System.out.print(offersOnMarket.get(j).getSellerName());
+					System.out.print(" a ");
+					System.out.println(offersOnMarket.get(j).getGoodName());
+					Person buyer = getAgent(bidsOnMarket.get(i).getBuyerName());
+					Person seller = getAgent(offersOnMarket.get(j).getSellerName());
+					if(buyer.purchaseOffer(offersOnMarket.get(j)))
+					{
+						seller.offerPurchased(offersOnMarket.get(j));
+						offersOnMarket.remove(j);
+						bidsOnMarket.remove(i);
+						
+						break;
+					}
 				}
 			}
 		}
@@ -103,5 +111,14 @@ public class Market {
 		}
 		//if we didnt find the agent then we return a dummy
 		return null;
+	}
+	
+	public void print()
+	{
+		//print all the agents
+		for(int i = 0; i < listOfAgents.size(); ++i)
+		{
+			listOfAgents.get(i).print();
+		}
 	}
 }

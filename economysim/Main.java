@@ -2,6 +2,9 @@ package economysim;
 import economysim.Farmer;
 import economysim.Blacksmith;
 import economysim.Market;
+import economysim.Woodcutter;
+import economysim.Miner;
+import economysim.Refiner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,18 +19,23 @@ public class Main {
 		boolean run = true;
 		
 		Farmer john = new Farmer("John");
+		Farmer alfredo = new Farmer("Alfredo");
 		Blacksmith alfonso = new Blacksmith("Alfonso");
+		Woodcutter alberto = new Woodcutter("Alberto");
+		Miner alejandro = new Miner("Alejandro");
+		Refiner alfrondso = new Refiner("Alfrondso");
 		Market market = new Market();
 		market.addAgent(john);
+		market.addAgent(alfredo);
 		market.addAgent(alfonso);
-		john.print();
-		alfonso.print();
+		market.addAgent(alberto);
+		market.addAgent(alejandro);
+		market.addAgent(alfrondso);
+		market.print();
 		while(run)
 		{
 			market.run();
-			john.print();
-			alfonso.print();
-			
+			market.print();
 			String input = br.readLine();
 			if(input == "stop")
 			{

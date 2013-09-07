@@ -1,13 +1,20 @@
 package economysim;
+import java.util.ArrayList;
 import economysim.Person;
 
 
 public class Farmer extends Person {
+	protected int foodLimit;
+	protected int woodLimit;
+	protected int foodUpperBound;
 	public Farmer(String name)
 	{
 		//constructor
 		//invoke person constructor
 		super(name);
+		foodLimit = 5;
+		woodLimit = 5;
+		foodUpperBound = 20;
 	}
 	public void run()
 	{
@@ -37,8 +44,6 @@ public class Farmer extends Person {
 	{
 		//lets print the resources the farmer has right now
 		super.print();
-		System.out.print("Food: ");
-		System.out.println(food);
 		System.out.print("Tools: ");
 		System.out.println(tools);
 		System.out.print("Wood: ");
@@ -46,16 +51,46 @@ public class Farmer extends Person {
 		System.out.println("");
 		
 	}
-	public Offer createOffer()
+	public ArrayList<Offer> createOffer()
 	{
-		Offer ret = new Offer(name, 5, "food");
+		ArrayList<Offer> ret = new ArrayList<Offer>();
+		//sell everything above limit which is hardcoded to 5 right now
+		if(food > foodLimit)
+		{
+			for(int i = 0; i < food - foodLimit; ++i)
+			{
+				Offer newOffer = new Offer(name, 10, "food");
+				ret.add(newOffer);
+			}
+			food = foodLimit;
+		}
 		return ret;
 	}
-	public boolean wantsToSell()
+	public ArrayList<Bid> createBid()
 	{
-		if(food > 5)
-			return true;
-		return false;
+		//farmer can just make food if they have wood so try to find wood first
+		ArrayList<Bid> ret = new ArrayList<Bid>();
+		if(tools < 1)
+		{
+			Bid newBid = new Bid(name, 10, "tools");
+			ret.add(newBid);
+		}
+		if(wood < woodLimit)
+		{
+			for(int i = 0; i < woodLimit - wood; ++i)
+			{
+				//need wood
+				Bid newBid = new Bid(name, 10, "wood");
+				ret.add(newBid);
+			}
+		}
+		if(food < 1)
+		{
+			//WE'RE DESPERATE!!!
+			Bid newBid = new Bid(name, 10, "food");
+			ret.add(newBid);
+		}
+		return ret;
 	}
 	public String getProfession()
 	{
