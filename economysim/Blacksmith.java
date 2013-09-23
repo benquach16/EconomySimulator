@@ -13,6 +13,8 @@ public class Blacksmith extends Person {
 	public void run()
 	{
 		super.run();
+		double totalPrice = (averagePrice.get("metal") * profitFactor);
+		averagePrice.put("tools", (int) totalPrice);
 		if(food > 0)
 		{
 			tools+=metal;
@@ -34,7 +36,7 @@ public class Blacksmith extends Person {
 		ArrayList<Offer> ret = new ArrayList<Offer>();
 		for(int i = 0; i < this.tools; ++i)
 		{
-			Offer newOffer = new Offer(name, 10, "tools");
+			Offer newOffer = new Offer(name, averagePrice.get("tools"), "tools");
 			ret.add(newOffer);
 		}
 		return ret;
@@ -44,11 +46,12 @@ public class Blacksmith extends Person {
 		//buy ore and food
 		ArrayList<Bid> ret = new ArrayList<Bid>();
 		ret.addAll(super.createBid());
+		//above our limit is surplus we don't need for now
 		if(metal < metalLimit)
 		{
 			for(int i = 0; i < metalLimit - metal; ++i)
 			{
-				Bid newBid = new Bid(name, 10, "metal");
+				Bid newBid = new Bid(name, averagePrice.get("tools"), "metal");
 				ret.add(newBid);
 			}
 		}

@@ -16,6 +16,11 @@ public class Woodcutter extends Person{
 		{
 			//do stuff
 			wood+=2;
+			//break tools
+			if((int)(Math.random() * 10) < 1)
+			{
+				tools--;
+			}
 		}
 		else if (food > 0)
 		{
@@ -36,7 +41,7 @@ public class Woodcutter extends Person{
 		ArrayList<Offer> ret = new ArrayList<Offer>();
 		for(int i = 0; i < this.wood; ++i)
 		{
-			Offer newOffer = new Offer(name, 10, "wood");
+			Offer newOffer = new Offer(name, averagePrice.get("wood"), "wood");
 			ret.add(newOffer);
 		}
 		return ret;
@@ -45,12 +50,12 @@ public class Woodcutter extends Person{
 	{
 		//buy ore and food
 		ArrayList<Bid> ret = new ArrayList<Bid>();
-		ret.addAll(super.createBid());
 		if(tools < 1)
 		{
-			Bid newBid = new Bid(name, 10, "tools");
+			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
 			ret.add(newBid);
 		}
+		ret.addAll(super.createBid());
 		return ret;
 	}
 	public String getProfession()

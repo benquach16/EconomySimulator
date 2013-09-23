@@ -17,6 +17,8 @@ public class Person {
 	protected int tools;
 	protected int metal;
 	protected int ore;
+	protected int foodLimit;
+	protected double profitFactor;
 	
 	protected String name;
 	
@@ -30,6 +32,7 @@ public class Person {
 		this.wood = 5;
 		this.tools = 0;
 		this.metal = 5;
+		this.foodLimit = 5;
 		
 		//set to 10 for now
 		averagePrice = new HashMap<String, Integer>();
@@ -38,6 +41,8 @@ public class Person {
 		averagePrice.put("tools", 10);
 		averagePrice.put("metal", 10);
 		averagePrice.put("ore", 10);
+		
+		profitFactor = 1.f;
 	}
 	public void run()
 	{
@@ -69,9 +74,9 @@ public class Person {
 	public ArrayList<Bid> createBid()
 	{
 		ArrayList<Bid> ret = new ArrayList<Bid>();
-		if(food < 5)
+		if(food < foodLimit)
 		{
-			for(int i = 0; i < (5-food); ++i)
+			for(int i = 0; i < (foodLimit-food); ++i)
 			{
 				Bid newBid = new Bid(name, averagePrice.get("food"), "food");
 				ret.add(newBid);
@@ -85,26 +90,45 @@ public class Person {
 		//make sure person can actually purchase this
 		if(money > offer.getPrice())
 		{
+			if(offer.getPrice() > averagePrice.get(offer.getGoodName()) * 2)
+			{
+				//too expensive
+				//but we increase our standards to compensate for this
+				int tmp = (offer.getPrice() + averagePrice.get(offer.getGoodName()))/2;
+				averagePrice.put(offer.getGoodName(), tmp);
+				return false;
+			}
+			//make sure we lower the averageprice if what we bought is lower
 			money -= offer.getPrice();
 			if(offer.getGoodName() == "food")
 			{
 				food++;
+				int tmp = (offer.getPrice() + averagePrice.get("food"))/2;
+				averagePrice.put("food", tmp);
 			}
 			else if(offer.getGoodName() == "tools")
 			{
 				tools++;
+				int tmp = (offer.getPrice() + averagePrice.get("tools"))/2;
+				averagePrice.put("tools", tmp);
 			}
 			else if(offer.getGoodName() == "wood")
 			{
 				wood++;
+				int tmp = (offer.getPrice() + averagePrice.get("wood"))/2;
+				averagePrice.put("wood", tmp);
 			}
 			else if(offer.getGoodName() == "metal")
 			{
 				metal++;
+				int tmp = (offer.getPrice() + averagePrice.get("metal"))/2;
+				averagePrice.put("metal", tmp);
 			}
 			else if(offer.getGoodName() == "ore")
 			{
 				ore++;
+				int tmp = (offer.getPrice() + averagePrice.get("ore"))/2;
+				averagePrice.put("ore", tmp);
 			}
 			return true;
 		}
@@ -134,7 +158,27 @@ public class Person {
 		{
 			ore--;
 		}
+		//update prices
+		
 	}
+	//function to update prices based on stuff not selling
+	public void offerUnsold(Offer offer)
+	{
+		
+	}
+	//function to update prices based on supply and demand
+	public void updatePrice(String good, float slope)
+	{
+		if(slope > 0.23f || slope < -0.23f)
+		{
+			int newAvg = (int) (averagePrice.get(good) * (1 - slope));
+			int diffAvg = averagePrice.get(good) - newAvg;
+			diffAvg = averagePrice.get(good) - (diffAvg / 2);
+			averagePrice.put(good, diffAvg);
+			
+		}
+	}
+	
 	//accessors go down here
 	public String getProfession()
 	{

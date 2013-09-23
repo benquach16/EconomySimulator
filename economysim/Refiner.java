@@ -12,11 +12,18 @@ public class Refiner extends Person {
 	public void run()
 	{
 		super.run();
+		double totalPrice = (averagePrice.get("ore") * profitFactor);
+		averagePrice.put("metal", (int) totalPrice);
 		if(food > 0 && tools > 0)
 		{
 			//convert ore into metal
 			metal += ore;
 			ore = 0;
+			//break tools
+			if((int)(Math.random() * 10) < 1)
+			{
+				tools--;
+			}
 		}
 		else if (food > 0)
 		{
@@ -49,7 +56,7 @@ public class Refiner extends Person {
 		ArrayList<Offer> ret = new ArrayList<Offer>();
 		for(int i = 0; i < this.metal; ++i)
 		{
-			Offer newOffer = new Offer(name, 10, "metal");
+			Offer newOffer = new Offer(name, averagePrice.get("metal"), "metal");
 			ret.add(newOffer);
 		}
 		return ret;
@@ -58,20 +65,20 @@ public class Refiner extends Person {
 	{
 		//buy ore and food
 		ArrayList<Bid> ret = new ArrayList<Bid>();
-		ret.addAll(super.createBid());
 		if(tools < 1)
 		{
-			Bid newBid = new Bid(name, 10, "tools");
+			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
 			ret.add(newBid);
 		}
 		if(ore < oreLimit)
 		{
 			for(int i = 0; i < oreLimit - ore; ++i)
 			{
-				Bid newBid = new Bid(name, 10, "ore");
+				Bid newBid = new Bid(name, averagePrice.get("ore"), "ore");
 				ret.add(newBid);
 			}
 		}
+		ret.addAll(super.createBid());
 		return ret;
 	}
 	public String getProfession()

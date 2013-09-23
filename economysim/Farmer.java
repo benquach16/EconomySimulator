@@ -15,16 +15,25 @@ public class Farmer extends Person {
 		foodLimit = 5;
 		woodLimit = 5;
 		foodUpperBound = 20;
+
 	}
 	public void run()
 	{
 		super.run();
+		double totalPrice = ((averagePrice.get("wood")/5) * profitFactor);
+		averagePrice.put("food", (int) (totalPrice+1));
 		//every tick make food
 		if(tools > 0 && wood > 0 && food > 0)
 		{
 			//we can do stuff
 			wood --;
 			food += 5;
+			
+			//break tools
+			if((int)(Math.random() * 10) < 1)
+			{
+				tools--;
+			}
 		}
 		else if(wood > 0 && food > 0)
 		{
@@ -59,7 +68,7 @@ public class Farmer extends Person {
 		{
 			for(int i = 0; i < food - foodLimit; ++i)
 			{
-				Offer newOffer = new Offer(name, 10, "food");
+				Offer newOffer = new Offer(name, averagePrice.get("food"), "food");
 				ret.add(newOffer);
 			}
 			food = foodLimit;
@@ -72,22 +81,22 @@ public class Farmer extends Person {
 		ArrayList<Bid> ret = new ArrayList<Bid>();
 		if(tools < 1)
 		{
-			Bid newBid = new Bid(name, 10, "tools");
+			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
 			ret.add(newBid);
 		}
-		if(wood < woodLimit)
+		if(wood < woodLimit && food < foodUpperBound)
 		{
 			for(int i = 0; i < woodLimit - wood; ++i)
 			{
 				//need wood
-				Bid newBid = new Bid(name, 10, "wood");
+				Bid newBid = new Bid(name, averagePrice.get("wood"), "wood");
 				ret.add(newBid);
 			}
 		}
 		if(food < 1)
 		{
 			//WE'RE DESPERATE!!!
-			Bid newBid = new Bid(name, 10, "food");
+			Bid newBid = new Bid(name, averagePrice.get("food"), "food");
 			ret.add(newBid);
 		}
 		return ret;
