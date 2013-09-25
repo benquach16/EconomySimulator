@@ -19,9 +19,9 @@ public class Farmer extends Person {
 	}
 	public void run()
 	{
-		super.run();
-		double totalPrice = ((averagePrice.get("wood")/5) * profitFactor);
-		averagePrice.put("food", (int) (totalPrice+1));
+		//super.run();
+		double totalPrice = ((averagePrice.get("wood")/3) * profitFactor);
+		averagePrice.put("food", (int) (totalPrice));
 		//every tick make food
 		if(tools > 0 && wood > 0 && food > 0)
 		{
@@ -66,7 +66,7 @@ public class Farmer extends Person {
 		//sell everything above limit which is hardcoded to 5 right now
 		if(food > foodLimit)
 		{
-			for(int i = 0; i < food - foodLimit; ++i)
+			for(int i = 0; i < (food - foodLimit); ++i)
 			{
 				Offer newOffer = new Offer(name, averagePrice.get("food"), "food");
 				ret.add(newOffer);

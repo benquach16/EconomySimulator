@@ -65,6 +65,7 @@ public class Refiner extends Person {
 	{
 		//buy ore and food
 		ArrayList<Bid> ret = new ArrayList<Bid>();
+		ret.addAll(super.createBid());
 		if(tools < 1)
 		{
 			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
@@ -78,7 +79,7 @@ public class Refiner extends Person {
 				ret.add(newBid);
 			}
 		}
-		ret.addAll(super.createBid());
+		
 		return ret;
 	}
 	public String getProfession()

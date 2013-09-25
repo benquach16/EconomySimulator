@@ -5,10 +5,12 @@ import economysim.Person;
 
 public class Blacksmith extends Person {
 	protected int metalLimit;
+	protected int toolsLimit;
 	public Blacksmith(String name)
 	{
 		super(name);
 		metalLimit = 5;
+		toolsLimit = 5;
 	}
 	public void run()
 	{
@@ -47,7 +49,7 @@ public class Blacksmith extends Person {
 		ArrayList<Bid> ret = new ArrayList<Bid>();
 		ret.addAll(super.createBid());
 		//above our limit is surplus we don't need for now
-		if(metal < metalLimit)
+		if(metal < metalLimit && tools < 10)
 		{
 			for(int i = 0; i < metalLimit - metal; ++i)
 			{

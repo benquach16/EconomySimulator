@@ -20,7 +20,7 @@ public class Main {
 		
 		Farmer john = new Farmer("John");
 		Farmer alfredo = new Farmer("Alfredo");
-		//Farmer thomas = new Farmer("Thomas");
+		//Woodcutter thomas = new Woodcutter("Thomas");
 		Blacksmith alfonso = new Blacksmith("Alfonso");
 		Woodcutter alberto = new Woodcutter("Alberto");
 		Miner alejandro = new Miner("Alejandro");
