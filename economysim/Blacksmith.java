@@ -49,7 +49,7 @@ public class Blacksmith extends Person {
 		ArrayList<Bid> ret = new ArrayList<Bid>();
 		ret.addAll(super.createBid());
 		//above our limit is surplus we don't need for now
-		if(metal < metalLimit && tools < 10)
+		if(metal < metalLimit)
 		{
 			for(int i = 0; i < metalLimit - metal; ++i)
 			{

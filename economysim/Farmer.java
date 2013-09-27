@@ -41,13 +41,6 @@ public class Farmer extends Person {
 			wood --;
 			food += 3;
 		}
-		else if(food < 1)
-		{
-			//no food?
-			//better buy some on the market then
-			//if no money then we kill this guy
-			
-		}
 	}
 	public void print()
 	{
@@ -84,7 +77,7 @@ public class Farmer extends Person {
 			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
 			ret.add(newBid);
 		}
-		if(wood < woodLimit && food < foodUpperBound)
+		if(wood < woodLimit)
 		{
 			for(int i = 0; i < woodLimit - wood; ++i)
 			{

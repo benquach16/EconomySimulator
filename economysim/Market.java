@@ -76,7 +76,7 @@ public class Market {
 
 					Person buyer = getAgent(bidsOnMarket.get(i).getBuyerName());
 					Person seller = getAgent(offersOnMarket.get(j).getSellerName());
-					if(buyer.purchaseOffer(offersOnMarket.get(j)))
+					if(buyer != seller && buyer.purchaseOffer(offersOnMarket.get(j)))
 					{
 						//found an offer and a bid for the same thing
 						//just buy it for now
@@ -110,6 +110,7 @@ public class Market {
 			System.out.print(" for ");
 			System.out.println(offersOnMarket.get(i).getPrice());
 		}
+		offersOnMarket.clear();
 		
 		for(int i = 0; i < listOfAgents.size(); ++i)
 		{
@@ -192,6 +193,7 @@ public class Market {
 		avgDemand = avgDemand / demandVector.size();
 		
 		total = (avgDemand - avgSupply) / (avgDemand + avgSupply);
+		//System.out.print(good);
 		//System.out.println(total);
 		return total;
 	}
@@ -221,6 +223,8 @@ public class Market {
 		}
 	}
 	
+	//add the avg supply and demand to the history
+	//for each cycle
 	protected void generateSupplyAndDemand()
 	{
 		int cycleDemand[] = {0,0,0,0,0};
@@ -252,6 +256,7 @@ public class Market {
 			else
 				tmp = marketHistoryDemand.get("metal");
 			tmp.add(cycleDemand[i]);
+			System.out.println(cycleDemand[i]);
 		}
 		
 		int cycleSupply[] = {0,0,0,0,0};
@@ -286,4 +291,7 @@ public class Market {
 		}		
 		
 	}
+	
+	//protected function
+	//determines the most profitable job
 }

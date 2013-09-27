@@ -20,17 +20,19 @@ public class Main {
 		
 		Farmer john = new Farmer("John");
 		Farmer alfredo = new Farmer("Alfredo");
-		//Woodcutter thomas = new Woodcutter("Thomas");
+		Farmer thomas = new Farmer("Thomas");
 		Blacksmith alfonso = new Blacksmith("Alfonso");
 		Woodcutter alberto = new Woodcutter("Alberto");
+		Woodcutter dynthony = new Woodcutter("Dynthony");
 		Miner alejandro = new Miner("Alejandro");
 		Refiner alfrondso = new Refiner("Alfrondso");
 		Market market = new Market();
 		market.addAgent(john);
 		market.addAgent(alfredo);
-		//market.addAgent(thomas);
+		market.addAgent(thomas);
 		market.addAgent(alfonso);
 		market.addAgent(alberto);
+		market.addAgent(dynthony);
 		market.addAgent(alejandro);
 		market.addAgent(alfrondso);
 		market.print();

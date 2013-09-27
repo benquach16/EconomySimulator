@@ -17,12 +17,15 @@ public class Person {
 	protected int tools;
 	protected int metal;
 	protected int ore;
-	protected int foodLimit;
 	protected double profitFactor;
 	
 	protected String name;
 	
 	protected Map<String, Integer> averagePrice;
+	protected Map<String, Integer> goodBounds;
+	
+	//list of necessary items that people will buy irregardless of price
+	protected ArrayList<String> inelasticGoods;
 	
 	public Person(String name)
 	{
@@ -32,7 +35,6 @@ public class Person {
 		this.wood = 5;
 		this.tools = 0;
 		this.metal = 5;
-		this.foodLimit = 5;
 		
 		//set to 10 for now
 		averagePrice = new HashMap<String, Integer>();
@@ -42,12 +44,21 @@ public class Person {
 		averagePrice.put("metal", 10);
 		averagePrice.put("ore", 10);
 		
-		profitFactor = 1.f;
+		goodBounds = new HashMap<String, Integer>();
+		goodBounds.put("food", 10);
+		goodBounds.put("wood", 10);
+		goodBounds.put("tools", 10);
+		goodBounds.put("metal", 10);
+		goodBounds.put("ore", 10);
+		
+		profitFactor = 1.5f;
 	}
 	public void run()
 	{
 		//virtual function
 		food--;
+		//modify good bounds by how much money we have
+		
 	}
 	public void print()
 	{
@@ -74,11 +85,11 @@ public class Person {
 	public ArrayList<Bid> createBid()
 	{
 		ArrayList<Bid> ret = new ArrayList<Bid>();
-		if(food < foodLimit)
+		if(food < goodBounds.get("food"))
 		{
-			for(int i = 0; i < (foodLimit-food); ++i)
+			for(int i = 0; i < (goodBounds.get("food")-food); ++i)
 			{
-				Bid newBid = new Bid(name, averagePrice.get("food"), "food");
+				Bid newBid = new Bid(name, averagePrice.get("food")*2, "food");
 				ret.add(newBid);
 			}
 		}
@@ -94,8 +105,9 @@ public class Person {
 			{
 				//too expensive
 				//but we increase our standards to compensate for this
-				int tmp = (offer.getPrice() + averagePrice.get(offer.getGoodName()))/2;
-				averagePrice.put(offer.getGoodName(), tmp);
+
+				int diffAvg = averagePrice.get(offer.getGoodName()) - offer.getPrice();
+				diffAvg = averagePrice.get(offer.getGoodName()) - (diffAvg / 2);
 				return false;
 			}
 			//make sure we lower the averageprice if what we bought is lower
@@ -161,8 +173,8 @@ public class Person {
 		//update prices
 		
 	}
-	//function to update prices based on stuff not selling
-	public void offerUnsold(Offer offer)
+	//function to change limits based on avg demand
+	public void updateLimit(String good, float avgDemand)
 	{
 		
 	}
@@ -173,7 +185,7 @@ public class Person {
 		{
 			int newAvg = (int) (averagePrice.get(good) * (1 - slope));
 			int diffAvg = averagePrice.get(good) - newAvg;
-			diffAvg = averagePrice.get(good) - (diffAvg / 2);
+			diffAvg = averagePrice.get(good) + (diffAvg / 2);
 			averagePrice.put(good, diffAvg);
 			
 		}
