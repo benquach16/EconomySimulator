@@ -51,7 +51,7 @@ public class Person {
 		goodBounds.put("metal", 10);
 		goodBounds.put("ore", 10);
 		
-		profitFactor = 1.5f;
+		profitFactor = 2.0f;
 	}
 	public void run()
 	{
@@ -101,6 +101,7 @@ public class Person {
 		//make sure person can actually purchase this
 		if(money > offer.getPrice())
 		{
+			
 			if(offer.getPrice() > averagePrice.get(offer.getGoodName()) * 2)
 			{
 				//too expensive
@@ -181,7 +182,7 @@ public class Person {
 	//function to update prices based on supply and demand
 	public void updatePrice(String good, float slope)
 	{
-		if(slope > 0.23f || slope < -0.23f)
+		//if(slope > 0.23f || slope < -0.23f)
 		{
 			int newAvg = (int) (averagePrice.get(good) * (1 - slope));
 			int diffAvg = averagePrice.get(good) - newAvg;
@@ -199,5 +200,9 @@ public class Person {
 	public String getName()
 	{
 		return name;
+	}
+	public int getFood()
+	{
+		return food;
 	}
 }

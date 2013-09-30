@@ -71,9 +71,9 @@ public class Refiner extends Person {
 			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
 			ret.add(newBid);
 		}
-		if(ore < oreLimit)
+		if(ore < goodBounds.get("ore") && metal < goodBounds.get("metal"))
 		{
-			for(int i = 0; i < oreLimit - ore; ++i)
+			for(int i = 0; i < goodBounds.get("ore") - ore; ++i)
 			{
 				Bid newBid = new Bid(name, averagePrice.get("ore"), "ore");
 				ret.add(newBid);

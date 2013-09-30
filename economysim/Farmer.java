@@ -20,7 +20,7 @@ public class Farmer extends Person {
 	public void run()
 	{
 		//super.run();
-		double totalPrice = ((averagePrice.get("wood")/3) * profitFactor);
+		double totalPrice = ((averagePrice.get("wood")/3) * profitFactor) + 1;
 		averagePrice.put("food", (int) (totalPrice));
 		//every tick make food
 		if(tools > 0 && wood > 0 && food > 0)

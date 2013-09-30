@@ -6,11 +6,9 @@ import economysim.Person;
 //miner class
 //produces ore
 public class Miner extends Person{
-	protected int oreUpperBound;
 	public Miner(String name)
 	{
 		super(name);
-		oreUpperBound = 20;
 	}
 	public void run()
 	{

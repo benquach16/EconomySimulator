@@ -1,6 +1,8 @@
 package economysim;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import economysim.Offer;
@@ -67,6 +69,8 @@ public class Market {
 		//calculate the supply and demand of this cycle
 		generateSupplyAndDemand();
 		//for each bid try to find a matching offer
+		randomize(bidsOnMarket);
+		randomize(offersOnMarket);
 		for(int i = 0; i < bidsOnMarket.size(); ++i)
 		{
 			for(int j = 0; j < offersOnMarket.size(); ++j)
@@ -100,7 +104,7 @@ public class Market {
 		}
 		//now go through all the offerss and if bids didn't sell we reduce the price
 		//reduce price based on the supply of the item
-		
+		/*
 		for(int i = 0; i < offersOnMarket.size(); ++i)
 		{
 			Person seller = getAgent(offersOnMarket.get(i).getSellerName());
@@ -109,8 +113,7 @@ public class Market {
 			System.out.print(offersOnMarket.get(i).getGoodName());
 			System.out.print(" for ");
 			System.out.println(offersOnMarket.get(i).getPrice());
-		}
-		offersOnMarket.clear();
+		}*/
 		
 		for(int i = 0; i < listOfAgents.size(); ++i)
 		{
@@ -119,6 +122,11 @@ public class Market {
 			listOfAgents.get(i).updatePrice("tools", generateSupplySlope("tools"));
 			listOfAgents.get(i).updatePrice("metal", generateSupplySlope("metal"));
 			listOfAgents.get(i).updatePrice("ore", generateSupplySlope("ore"));
+			if(listOfAgents.get(i).getFood() < 0)
+			{
+				//died
+				swapAgent(listOfAgents.get(i));
+			}
 		}
 	}
 	
@@ -198,10 +206,7 @@ public class Market {
 		return total;
 	}
 	
-	//accessors go here
-	
 	//protected functions go here
-	
 	protected void generateOffers()
 	{
 		//generate offers based on what each agent wants to sell
@@ -256,7 +261,7 @@ public class Market {
 			else
 				tmp = marketHistoryDemand.get("metal");
 			tmp.add(cycleDemand[i]);
-			System.out.println(cycleDemand[i]);
+			//System.out.println(cycleDemand[i]);
 		}
 		
 		int cycleSupply[] = {0,0,0,0,0};
@@ -294,4 +299,115 @@ public class Market {
 	
 	//protected function
 	//determines the most profitable job
+	protected String getMostDemandedGood()
+	{
+		String good;
+		//for each good find the supply to demand ratio
+		int index = 0;
+		float ratio[] = {0,0,0,0,0};
+		//find ratios
+		ratio[0] = ((float)getAverageSupply("food") / getAverageDemand("food"));
+		ratio[1] = ((float)getAverageSupply("tools") / getAverageDemand("tools"));
+		ratio[2] = ((float)getAverageSupply("wood") / getAverageDemand("wood"));
+		ratio[3] = ((float)getAverageSupply("ore") / getAverageDemand("ore"));
+		ratio[4] = ((float)getAverageSupply("metal") / getAverageDemand("metal"));
+		
+		for(int i = 0; i < 5; ++i)
+		{
+			if(ratio[i] > ratio[index])
+			{
+				index = i;
+			}
+		}
+		if(index == 0)
+			good = "food";
+		else if(index == 1)
+			good = "tools";
+		else if(index == 2)
+			good = "wood";
+		else if(index == 3)
+			good = "ore";
+		else
+			good = "metal";
+		return good;
+	}
+	
+	//protected function
+	//if an agent is dead we swap him for a new class and a new life
+	protected void swapAgent(Person agent)
+	{
+		for(int i = 0 ; i < listOfAgents.size(); ++i)
+		{
+			if(listOfAgents.get(i) == agent)
+			{
+				listOfAgents.remove(i);
+			}
+		}
+		String good = getMostDemandedGood();
+
+		if(good == "food")
+		{
+			agent = new Farmer(agent.getName());
+			
+		}
+		else if (good == "tools")
+		{
+			agent = new Blacksmith(agent.getName());
+		}
+		else if (good == "wood")
+		{
+			agent = new Woodcutter(agent.getName());
+		}
+		else if (good == "ore")
+		{
+			agent = new Miner(agent.getName());
+		}
+		System.out.print(agent.getName());
+		System.out.print(" is added as a new ");
+		System.out.print(agent.getProfession());
+		listOfAgents.add(agent);
+	}
+	
+	//protected function
+	//get averagebids
+	protected int getAverageDemand(String good)
+	{
+		ArrayList<Integer> demandVector = marketHistoryDemand.get(good);
+		int avgDemand = 0;
+		for(int i = 0; i < demandVector.size(); ++i)
+		{
+			avgDemand += demandVector.get(i);
+		}
+		avgDemand = avgDemand / demandVector.size();
+		return avgDemand;
+	}
+	
+	//protected function
+	//get averageoffers
+	protected int getAverageSupply(String good)
+	{
+		ArrayList<Integer> supplyVector = marketHistorySupply.get(good);
+		int avgSupply = 0;
+		for(int i = 0; i < supplyVector.size(); ++i)
+		{
+			avgSupply += supplyVector.get(i);
+		}
+		avgSupply = avgSupply / supplyVector.size();
+		return avgSupply;
+	}	
+	
+	//protected function
+	//randomizes bids so position is not a factor in who gets to sell and buy
+	protected <T> void randomize(ArrayList<T> toShuffle)
+	{
+		//this function ensures that position is not a factor in whose items get sold and bought
+		if(toShuffle.size() > 1)
+		{
+			for(int i = 0; i < toShuffle.size(); ++i)
+			{
+				int n = (int) (Math.random() * toShuffle.size());
+				Collections.swap(toShuffle, i, n);
+			}
+		}
+	}
 }
