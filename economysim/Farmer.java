@@ -4,17 +4,12 @@ import economysim.Person;
 
 
 public class Farmer extends Person {
-	protected int foodLimit;
-	protected int woodLimit;
-	protected int foodUpperBound;
+
 	public Farmer(String name)
 	{
 		//constructor
 		//invoke person constructor
 		super(name);
-		foodLimit = 5;
-		woodLimit = 5;
-		foodUpperBound = 20;
 
 	}
 	public void run()
@@ -30,7 +25,7 @@ public class Farmer extends Person {
 			food += 5;
 			
 			//break tools
-			if((int)(Math.random() * 10) < 1)
+			if((int)(Math.random() * 10) < 5)
 			{
 				tools--;
 			}
@@ -57,14 +52,14 @@ public class Farmer extends Person {
 	{
 		ArrayList<Offer> ret = new ArrayList<Offer>();
 		//sell everything above limit which is hardcoded to 5 right now
-		if(food > foodLimit)
+		if(food > goodBounds.get("food"))
 		{
-			for(int i = 0; i < (food - foodLimit); ++i)
+			for(int i = 0; i < (food - goodBounds.get("food")); ++i)
 			{
 				Offer newOffer = new Offer(name, averagePrice.get("food"), "food");
 				ret.add(newOffer);
 			}
-			food = foodLimit;
+			food = goodBounds.get("food");
 		}
 		return ret;
 	}
@@ -77,9 +72,9 @@ public class Farmer extends Person {
 			Bid newBid = new Bid(name, averagePrice.get("tools"), "tools");
 			ret.add(newBid);
 		}
-		if(wood < woodLimit)
+		if(wood < goodBounds.get("wood"))
 		{
-			for(int i = 0; i < woodLimit - wood; ++i)
+			for(int i = 0; i < goodBounds.get("wood") - wood; ++i)
 			{
 				//need wood
 				Bid newBid = new Bid(name, averagePrice.get("wood"), "wood");

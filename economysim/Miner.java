@@ -18,7 +18,7 @@ public class Miner extends Person{
 		{
 			ore+=4;
 			//break tools
-			if((int)(Math.random() * 10) < 1)
+			if((int)(Math.random() * 10) < 5)
 			{
 				tools--;
 			}

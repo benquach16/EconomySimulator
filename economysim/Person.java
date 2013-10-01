@@ -31,10 +31,11 @@ public class Person {
 	{
 		this.name = name;
 		this.money = 500;
-		this.food = 5;
-		this.wood = 5;
+		this.food = 10;
+		this.wood = 10;
 		this.tools = 0;
-		this.metal = 5;
+		this.ore = 10;
+		this.metal = 10;
 		
 		//set to 10 for now
 		averagePrice = new HashMap<String, Integer>();
@@ -182,7 +183,7 @@ public class Person {
 	//function to update prices based on supply and demand
 	public void updatePrice(String good, float slope)
 	{
-		//if(slope > 0.23f || slope < -0.23f)
+		if(slope > 0.23f || slope < -0.23f)
 		{
 			int newAvg = (int) (averagePrice.get(good) * (1 - slope));
 			int diffAvg = averagePrice.get(good) - newAvg;

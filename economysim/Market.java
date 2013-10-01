@@ -2,7 +2,6 @@ package economysim;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import economysim.Offer;
@@ -128,6 +127,7 @@ public class Market {
 				swapAgent(listOfAgents.get(i));
 			}
 		}
+		changeLimits();
 	}
 	
 	//find the agent with this name
@@ -364,7 +364,7 @@ public class Market {
 		}
 		System.out.print(agent.getName());
 		System.out.print(" is added as a new ");
-		System.out.print(agent.getProfession());
+		System.out.println(agent.getProfession());
 		listOfAgents.add(agent);
 	}
 	
@@ -408,6 +408,17 @@ public class Market {
 				int n = (int) (Math.random() * toShuffle.size());
 				Collections.swap(toShuffle, i, n);
 			}
+		}
+	}
+	
+	//protected function
+	//if the arrays for market historyare larger than 10 shorten them so prices remain dynamic
+	protected void changeLimits()
+	{
+		if(marketHistoryDemand.size() > 10 && marketHistorySupply.size() > 10)
+		{
+			marketHistoryDemand.remove(0);
+			marketHistorySupply.remove(0);
 		}
 	}
 }

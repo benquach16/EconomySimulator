@@ -3,11 +3,9 @@ package economysim;
 import java.util.ArrayList;
 
 public class Refiner extends Person {
-	protected int oreLimit;
 	public Refiner(String name)
 	{
 		super(name);
-		oreLimit = 5;
 	}
 	public void run()
 	{
@@ -20,7 +18,7 @@ public class Refiner extends Person {
 			metal += ore;
 			ore = 0;
 			//break tools
-			if((int)(Math.random() * 10) < 1)
+			if((int)(Math.random() * 10) < 5)
 			{
 				tools--;
 			}

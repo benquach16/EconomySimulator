@@ -17,7 +17,7 @@ public class Woodcutter extends Person{
 			//do stuff
 			wood+=2;
 			//break tools
-			if((int)(Math.random() * 10) < 1)
+			if((int)(Math.random() * 10) < 5)
 			{
 				tools--;
 			}
